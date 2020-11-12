@@ -55,47 +55,43 @@ public class MainActivity extends AppCompatActivity {
     public void doSomethingMathish(View v) {
         hideSoftKeyboard(cost);
         final int id = v.getId();
-        switch (id) {
-            case R.id.reset:
-                qty.setText("");
-                cost.setText("");
-                costOutput1.setText("");
-                costOutput2.setText("");
-                break;
-            case R.id.runCalculation:
-                String totalQtyString = qty.getText().toString();
-                String totalCostString = cost.getText().toString();
-                double totalQty = Double.parseDouble(totalQtyString);
-                double totalCost = Double.parseDouble(totalCostString);
-                double itemCost = totalCost/totalQty;
-                double roundedCost = roundThreeDecimals(itemCost);
-                double oneLess = roundNoDecimals(totalQty)-1;
-                int oneLessInt = (int) roundNoDecimals(oneLess);
-                double allButOne = roundedCost*oneLess;
-                double finalItem = totalCost-allButOne;
-                String itemCostString = roundedCost +" X "+ oneLessInt;
-                String finalItemString = roundThreeDecimals(finalItem) +" X 1";
-                if (((roundedCost * oneLess) + roundThreeDecimals(finalItem)) == totalCost) {
-                    if(finalItem == roundedCost) {
-                        String allCostString = roundedCost +" X "+ totalQty;
-                        costOutput1.setText(allCostString);
-                        costOutput2.setText(getString(string.tooEasy));
-                    }
-
-                    Log.d("costCcostString", totalQtyString);
-                    Log.d("costCqtyString", totalCostString);
-                    Log.d("costCcostDoub", String.valueOf(totalQty));
-                    Log.d("costCqtyDoub", String.valueOf(totalCost));
-                    Log.d("costCindItem", String.valueOf(itemCost));
-                    costOutput1.setText(itemCostString);
-                    costOutput2.setText(finalItemString);
-                } else {
-                    String errorString = (roundedCost*oneLess)+finalItem +" in not = to "+ totalCost;
-                    costOutput1.setText(getString(string.errorWarning));
-                    costOutput2.setText(errorString);
+        if (id == R.id.reset) {
+            qty.setText("");
+            cost.setText("");
+            costOutput1.setText("");
+            costOutput2.setText("");
+        } else if (id == R.id.runCalculation) {
+            String totalQtyString = qty.getText().toString();
+            String totalCostString = cost.getText().toString();
+            double totalQty = Double.parseDouble(totalQtyString);
+            double totalCost = Double.parseDouble(totalCostString);
+            double itemCost = totalCost / totalQty;
+            double roundedCost = roundThreeDecimals(itemCost);
+            double oneLess = roundNoDecimals(totalQty) - 1;
+            int oneLessInt = (int) roundNoDecimals(oneLess);
+            double allButOne = roundedCost * oneLess;
+            double finalItem = totalCost - allButOne;
+            String itemCostString = roundedCost + " X " + oneLessInt;
+            String finalItemString = roundThreeDecimals(finalItem) + " X 1";
+            if (((roundedCost * oneLess) + roundThreeDecimals(finalItem)) == totalCost) {
+                if (finalItem == roundedCost) {
+                    String allCostString = roundedCost + " X " + totalQty;
+                    costOutput1.setText(allCostString);
+                    costOutput2.setText(getString(string.tooEasy));
                 }
 
-                break;
+                Log.d("costCcostString", totalQtyString);
+                Log.d("costCqtyString", totalCostString);
+                Log.d("costCcostDoub", String.valueOf(totalQty));
+                Log.d("costCqtyDoub", String.valueOf(totalCost));
+                Log.d("costCindItem", String.valueOf(itemCost));
+                costOutput1.setText(itemCostString);
+                costOutput2.setText(finalItemString);
+            } else {
+                String errorString = (roundedCost * oneLess) + finalItem + " in not = to " + totalCost;
+                costOutput1.setText(getString(string.errorWarning));
+                costOutput2.setText(errorString);
+            }
         }
     }
     double roundNoDecimals(double d)
