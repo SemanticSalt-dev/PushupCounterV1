@@ -1,19 +1,19 @@
 package com.example.costCalculatorHighLife;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import android.content.Context;
 import android.os.Bundle;
-import android.text.InputFilter;
-import android.text.Spanned;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.text.DecimalFormat;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import static com.example.costCalculatorHighLife.R.id;
 import static com.example.costCalculatorHighLife.R.layout;
 import static com.example.costCalculatorHighLife.R.string;
@@ -22,13 +22,18 @@ import static com.example.costCalculatorHighLife.R.string;
 public class MainActivity extends AppCompatActivity {
     TextView costOutput1,costOutput2;
     EditText qty,cost;
-    ConstraintLayout root;
+    Button etr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_main);
         linkView();
-        root.setOnClickListener(view -> {
+        cost.setOnEditorActionListener((TextView v, int actionId, KeyEvent event) -> {
+            if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                //do what you want on the press of 'done'
+                etr.performClick();
+            }
+            return false;
         });
     }
 
@@ -37,11 +42,10 @@ public class MainActivity extends AppCompatActivity {
         costOutput2 = (TextView) findViewById(id.costLine2);
         qty = (EditText) findViewById(id.qty);
         cost = (EditText) findViewById(id.cost);
-        cost.setFilters(new InputFilter[]{new DecimalDigitsInputFilter()});
-        root = (ConstraintLayout) findViewById(id.mainLayout);
+        etr = (Button)findViewById(R.id.runCalculation);
     }
     public void doSomethingMathish(View v) {
-        hideSoftKeyboard(cost);
+        closeKeyboard();
         final int id = v.getId();
         if (id == R.id.reset) {
             qty.setText("");
@@ -51,8 +55,18 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.runCalculation) {
             String totalQtyString = qty.getText().toString();
             String totalCostString = cost.getText().toString();
+            if (totalQtyString.matches("") && totalQtyString.matches("")) {
+                Toast.makeText(this, "You did not enter anything at all..", Toast.LENGTH_SHORT).show();
+                return;
+            } else if (totalQtyString.matches("")) {
+                Toast.makeText(this, "You did not enter a quantity", Toast.LENGTH_SHORT).show();
+                return;
+            } else if (totalCostString.matches("")) {
+                Toast.makeText(this, "You did not enter a cost", Toast.LENGTH_SHORT).show();
+                return;
+            }
             double totalQty = Double.parseDouble(totalQtyString);
-            double totalCost = Double.parseDouble(totalCostString);
+            double totalCost = (int) Math.round(Double.parseDouble(totalCostString));
             double itemCost = totalCost / totalQty;
             double roundedCost = roundThreeDecimals(itemCost);
             double oneLess = roundNoDecimals(totalQty) - 1;
@@ -61,13 +75,11 @@ public class MainActivity extends AppCompatActivity {
             double finalItem = totalCost - allButOne;
             String itemCostString = roundedCost + " X " + oneLessInt;
             String finalItemString = roundThreeDecimals(finalItem) + " X 1";
-            if (((roundedCost * oneLess) + roundThreeDecimals(finalItem)) == totalCost) {
-                if (finalItem == roundedCost) {
-                    String allCostString = roundedCost + " X " + totalQty;
-                    costOutput1.setText(allCostString);
-                    costOutput2.setText(getString(string.tooEasy));
-                }
-
+            if (finalItem == roundedCost) {
+                String allCostString = roundedCost + " X " + totalQty;
+                costOutput1.setText(allCostString);
+                costOutput2.setText(getString(string.tooEasy));
+            } else if (((roundedCost * oneLess) + roundThreeDecimals(finalItem)) == totalCost) {
                 Log.d("costCcostString", totalQtyString);
                 Log.d("costCqtyString", totalCostString);
                 Log.d("costCcostDoub", String.valueOf(totalQty));
@@ -92,21 +104,12 @@ public class MainActivity extends AppCompatActivity {
         DecimalFormat twoDForm = new DecimalFormat("#.###");
         return Double.parseDouble(twoDForm.format(d));
     }
-    static class DecimalDigitsInputFilter implements InputFilter {
-        private final Pattern mPattern;
-        DecimalDigitsInputFilter() {
-            mPattern = Pattern.compile("[0-9]*" + (6 - 1) + "}+((\\.[0-9]*" + (3 - 1) + "})?)|(\\.)?");
+    public void closeKeyboard(){
+        try {
+            InputMethodManager editTextInput = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            editTextInput.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }catch (Exception e){
+            Log.e("AndroidView", "closeKeyboard: "+e);
         }
-        @Override
-        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-            Matcher matcher = mPattern.matcher(dest);
-            if (!matcher.matches())
-                return "";
-            return null;
-        }
-    }
-    public void hideSoftKeyboard(View view) {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
 }
