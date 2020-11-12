@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         root = (ConstraintLayout) findViewById(id.mainLayout);
         sharedPref = getPreferences(Context.MODE_PRIVATE);
     }
-    @SuppressLint({"NonConstantResourceId", "SetTextI18n"})
+    @SuppressLint("NonConstantResourceId")
     public void doSomethingMathish(View v) {
         hideSoftKeyboard(cost);
         final int id = v.getId();
