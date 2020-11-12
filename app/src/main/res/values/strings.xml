@@ -1,7 +1,11 @@
 <resources>
-    <string name="app_name">Pushup Counter v1</string>
+    <string name="appName">High Life Cost Calculator</string>
     <string name="button">Button</string>
-    <string name="how_many_can_you_do">How many can you do?</string>
+    <string name="greeting">Let me help out.</string>
     <string name="resetButton">Reset</string>
-    <string name="add10Button">Add 10!</string>
+    <string name="doTheMath">Calculate</string>
+    <string name="qty">Enter the quantity</string>
+    <string name="cost">Enter the total cost.</string>
+    <string name="errorWarning">Math Error! No good!</string>
+    <string name="tooEasy">well that was easy..</string>
 </resources>

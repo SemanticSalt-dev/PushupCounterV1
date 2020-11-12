@@ -4,18 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="145dp"
+        android:layout_marginTop="150dp"
         android:hapticFeedbackEnabled="false"
         android:maxLines="1"
         android:padding="16dp"
         android:scrollHorizontally="false"
-        android:text="@string/how_many_can_you_do"
+        android:text="@string/greeting"
         android:textSize="36sp"
         app:autoSizeMaxTextSize="38sp"
         app:autoSizeMinTextSize="14sp"
@@ -23,21 +24,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="How many can you do?" />
-
-    <TextView
-        android:id="@+id/theCount"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="180dp"
-        android:gravity="center_horizontal"
-        app:autoSizeMaxTextSize="1000sp"
-        app:autoSizeMinTextSize="60sp"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -53,15 +39,67 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/add10"
+        android:id="@+id/runCalculation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:onClick="doSomethingMathish"
-        android:text="@string/add10Button"
+        android:text="@string/doTheMath"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/qty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:gravity="center_horizontal"
+        android:hint="@string/qty"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@+id/reset"
+        tools:layout_editor_absoluteX="96dp"
+        android:textSize="24sp"
+        android:importantForAutofill="no" />
+
+    <EditText
+        android:id="@+id/cost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:ems="10"
+        android:gravity="center_horizontal"
+        android:hint="@string/cost"
+        android:importantForAutofill="no"
+        android:inputType="numberDecimal"
+        android:textSize="24sp"
+        app:layout_constraintTop_toBottomOf="@+id/reset"
+        tools:layout_editor_absoluteX="96dp" />
+
+    <TextView
+        android:id="@+id/costLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="230dp"
+        android:gravity="center_horizontal"
+        android:maxLines="1"
+        android:textSize="36sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/costLine2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="280dp"
+        android:gravity="center_horizontal"
+        android:maxLines="1"
+        android:textSize="36sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

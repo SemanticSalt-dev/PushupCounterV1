@@ -1,4 +1,4 @@
-package com.example.pushupcounterv1;
+package com.example.CostCalculator;
 
 import org.junit.Test;
 
