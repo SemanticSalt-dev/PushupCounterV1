@@ -1,6 +1,5 @@
 <resources>
     <string name="appName">High Life Cost Calculator</string>
-    <string name="button">Button</string>
     <string name="greeting">Let me help out.</string>
     <string name="resetButton">Reset</string>
     <string name="doTheMath">Calculate</string>

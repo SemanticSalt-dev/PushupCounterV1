@@ -1,42 +1,34 @@
-package com.example.CostCalculator;
+package com.example.costCalculatorHighLife;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import static com.example.costCalculatorHighLife.R.id;
+import static com.example.costCalculatorHighLife.R.layout;
+import static com.example.costCalculatorHighLife.R.string;
 
-import static com.example.CostCalculator.R.*;
 
 public class MainActivity extends AppCompatActivity {
-    Button button1,button2;
     TextView costOutput1,costOutput2;
     EditText qty,cost;
     ConstraintLayout root;
-    SharedPreferences sharedPref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_main);
         linkView();
         root.setOnClickListener(view -> {
-
         });
     }
 
@@ -45,13 +37,9 @@ public class MainActivity extends AppCompatActivity {
         costOutput2 = (TextView) findViewById(id.costLine2);
         qty = (EditText) findViewById(id.qty);
         cost = (EditText) findViewById(id.cost);
-        cost.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(6, 3)});
-        button1=(Button) findViewById(id.reset);
-        button2=(Button) findViewById(id.runCalculation);
+        cost.setFilters(new InputFilter[]{new DecimalDigitsInputFilter()});
         root = (ConstraintLayout) findViewById(id.mainLayout);
-        sharedPref = getPreferences(Context.MODE_PRIVATE);
     }
-    @SuppressLint("NonConstantResourceId")
     public void doSomethingMathish(View v) {
         hideSoftKeyboard(cost);
         final int id = v.getId();
@@ -104,10 +92,10 @@ public class MainActivity extends AppCompatActivity {
         DecimalFormat twoDForm = new DecimalFormat("#.###");
         return Double.parseDouble(twoDForm.format(d));
     }
-    class DecimalDigitsInputFilter implements InputFilter {
+    static class DecimalDigitsInputFilter implements InputFilter {
         private final Pattern mPattern;
-        DecimalDigitsInputFilter(int digitsBeforeZero, int digitsAfterZero) {
-            mPattern = Pattern.compile("[0-9]{0," + (digitsBeforeZero - 1) + "}+((\\.[0-9]{0," + (digitsAfterZero - 1) + "})?)|(\\.)?");
+        DecimalDigitsInputFilter() {
+            mPattern = Pattern.compile("[0-9]*" + (6 - 1) + "}+((\\.[0-9]*" + (3 - 1) + "})?)|(\\.)?");
         }
         @Override
         public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
