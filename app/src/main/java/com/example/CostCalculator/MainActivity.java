@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                     if(finalItem == roundedCost) {
                         String allCostString = roundedCost +" X "+ totalQty;
                         costOutput1.setText(allCostString);
-                        costOutput2.setText("@string/tooEasy");
+                        costOutput2.setText(getString(string.tooEasy));
                     }
 
                     Log.d("costCcostString", totalQtyString);
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                     costOutput2.setText(finalItemString);
                 } else {
                     String errorString = (roundedCost*oneLess)+finalItem +" in not = to "+ totalCost;
-                    costOutput1.setText("@string/errorWarning");
+                    costOutput1.setText(getString(string.errorWarning));
                     costOutput2.setText(errorString);
                 }
 
